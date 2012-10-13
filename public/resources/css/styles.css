@@ -1,0 +1,265 @@
+body{
+	margin: 0;
+}
+
+
+.autocomplete-w1 
+{ 
+	background:url(../images/shadow.png) no-repeat bottom right; 
+	position:absolute; 
+	top:0px; 
+	left:0px; 
+	margin:8px 0 0 6px; 
+	
+	/* IE6 fix: */ 
+	_background:none; 
+	_margin:0; 
+}
+
+
+.autocomplete 
+{ 
+	border:1px solid #999; 
+	background:#FFF; 
+	cursor:default; 
+	text-align:left; 
+	max-height:350px; 
+	overflow:auto; 
+	margin:-6px 6px 6px -6px; 
+	
+	/* IE6 specific: */ 
+	_height:350px;  
+	_margin:0; 
+	_overflow-x:hidden; men
+}
+
+.autocomplete .selected 
+{ 
+	background:#F0F0F0; 
+}
+
+.autocomplete div 
+{ 
+	padding:2px 5px; 
+	white-space:nowrap; 
+}
+
+.autocomplete strong 
+{ 
+	font-weight:normal; 
+	color:#3399FF; 
+}
+
+.clear
+{
+	clear: both;
+}
+
+.left
+{
+	float: left;
+	width: 49%;
+}
+
+.right
+{
+	float: right;
+	width: 49%;
+}
+
+.del-copy
+{
+	float: right; 
+	display: block; 
+	position: relative; 
+	top: 4px; 
+	cursor: pointer;
+}
+
+
+.inactive-module
+{
+	display:none;
+}
+
+.active-module
+{
+	display:block;
+}
+
+.module-menu-cnt
+{	
+	padding-bottom: 10px;
+    padding-top: 35px;
+	font-family:Arial;	
+}
+
+.module-menu-cnt label
+{
+	color:#FFFFFF
+}
+
+
+.controll-button
+{
+	background-color: #FCFCF3;
+    background-image: none;
+    background-position: 5px 50%;
+    background-repeat: no-repeat;
+    border: 1px solid #c9ffab;
+    cursor: pointer;
+    font-family: arial;
+    font-size: 17px;
+    height: 40px;
+    padding-left: 39px;
+}
+
+.add-button
+{
+	background-color: #FCFCF3;
+    background-image: url("../images/ADD_ICON_32.png");
+    border: 1px solid #c9ffab;
+}
+
+.add-button:hover
+{
+	background-color: #e1ffd0;
+}
+
+.update-button
+{
+	background-color: #FCFCF3;
+    background-image: url("../images/UPDATE_ICON_32.png");
+    border: 1px solid #ffe6bd;
+}
+
+.update-button:hover
+{
+	background-color: #ffeed1;
+}
+
+.advanced-search-button
+{
+	background-color: #FCFCF3;
+    background-image: url("../images/SEARCH_ICON_32.png");
+    border: 1px solid #b7e4ff;
+}
+
+.advanced-search-button:hover
+{
+	background-color: #e1f6ff;
+}
+
+
+.delete-button
+{
+	background-color: #FCFCF3;
+    background-image: url("../images/DELETE_ERROR_ICON_32.png");
+    border: 1px solid #ff5c5c;
+}
+
+.delete-button:hover
+{
+	background-color: #ffb1b1;
+}
+
+
+.reset-search-button
+{
+	background-color: #FCFCF3;
+    background-image: url("../images/CLEAR_ICON_32.png");
+    border: 1px solid #6ac6fe;
+}
+
+.save-button
+{
+	background-color: #FCFCF3;
+    background-image: url("../images/SAVE_ICON_32.png");
+    border: 1px solid #6ac6fe;
+}
+
+.list-button
+{
+	background-color: #fcfde5;
+    background-image: url("../images/LIST_ICON_32.png");
+    border: 1px solid #fdff00;
+}
+
+.globe-button
+{
+	background-color: #f0fdf2;
+    background-image: url("../images/GLOBE_ICON_32.png");
+    border: 1px solid #47ea66;
+}
+
+.fakture-button
+{
+	background-color: #e5feff;
+    background-image: url("../images/FAKTURE_ICON_32.png");
+    border: 1px solid #29cefd;
+}
+
+.lock-button
+{
+	background-color: #fce9d9;
+    background-image: url("../images/LOCK_ICON_32.png");
+    border: 1px solid #fb5438;
+}
+
+.import-export-button
+{
+	background-color: #e6e6e6;
+    background-image: url("../images/IMPORT_EXPORT_32.png");
+    border: 1px solid #d0b6b2;
+}
+
+.ui-jqgrid-hbox
+{
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+
+.gledanost-tabela-form input:disabled
+{
+	color:#000000;
+}
+
+
+.suma
+{
+	font-weight:bold;
+	font-size:13px;
+}
+
+#gledanost-header-row
+{
+	font-size:12px;
+}
+
+.gledanost-tabela-form label
+{
+	color:#000000 !important;
+}
+
+.nedovrsen-termin input
+{
+	border:#FF0000 2px solid;	
+}
+
+.ui-widget .controll-button {
+	font-size: 17px;
+	font-family: arial;
+}
+
+.ui-accordion .ui-accordion-header a {
+	font-size: 15px;
+}
+
+
+.colorpicker {
+	z-index: 100000;
+}
