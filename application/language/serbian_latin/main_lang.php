@@ -49,6 +49,14 @@ $lang[ 'stornirana_z_gledanost' ] = "Stornirana z. gledanost";
 $lang[ 'sa_porezom' ] = "Sa porezom";
 $lang[ 'bez_poreza' ] = "Bez poreza";
 
+$lang[ 'podesavanja' ] = "Podešavanja";
+
+$lang[ 'porez_rsd' ] = "Porez RSD";
+$lang[ 'porez_cg' ] = "Porez CG";
+$lang[ 'porez_km' ] = "Porez KM";
+$lang[ 'godina_poslovanja' ] = "Godina poslovanja";
+
+
 
 /********
  * 
@@ -496,6 +504,9 @@ $lang[ 'formira_dnevna_gledanost' ] = "Molimo vas sačekajte dok se formira dnev
 $lang[ 'faktura_stornirana_upozorenje' ] = "Ova faktura je stornirana! Ne mozete menjati storniranu fakturu.";
 $lang[ 'faktura_promena_uspeh' ] = "Uspešno ste promenili fakturu.";
 $lang[ 'zvanicna_nije_stornirana' ] = "Morate da stornirate zvanicnu gledanost prvo. Ova faktura je vezana za zvanicnu gledanost br: ";
+
+$lang[ 'dataSaved' ] = "Uspešno ste sačuvali podatke u bazu.";
+$lang[ 'kopija_ima_gledanost_del' ] = "Ova kopija ima dnevni izveštaj i ne može da se obriše!";
 
 
 ?> 

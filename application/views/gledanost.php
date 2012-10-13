@@ -12,7 +12,7 @@
  
  <div id="save-gledanost-dialog" align="center">
  <h3 class="text-message"><?php echo $lang['ucitavanje'];?></h3>
- <img alt="loading" src="<?php echo BASE_URI_RESOURCE; ?>images/loading.gif">
+ <img alt="loading" src="resources/images/loading.gif">
  </div>
  
  <div id="gledanost-content"></div>

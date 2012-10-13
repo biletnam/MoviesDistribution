@@ -210,24 +210,7 @@ if ($rd['tip']=='cg') {
     <tr>
         <td>
 			<?php
-                switch( $rd['primenjen_porez_komitenta'] )
-                {
-                    case 1:
-                        echo "PDV: 0%";
-                    break;
-                    
-                    case 2:
-                        echo "PDV: 8%";
-                    break;
-                    
-                    case 3:
-                        echo "PDV: 18%";
-                    break;
-                    
-                    case 4:
-                        echo "Bez Poreza";
-                    break;
-                } 
+                echo 'PDV ' . $rd['pdv_procenat_rsd'] . '%';
             ?> 
         </td>
         <td align="right"><?php echo round( $rd[ $iznos_pdv . $valuta ], 2, PHP_ROUND_HALF_UP ); ?></td>

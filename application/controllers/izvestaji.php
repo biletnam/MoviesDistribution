@@ -1086,6 +1086,18 @@ class Izvestaji extends PreController
 	
 	public function finansijskiPrometFilma( $return = FALSE )
 	{
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		if( ! $this->_sort_col_name )
 			$this->_sort_col_name = 'naziv_filma';
 
@@ -1247,6 +1259,7 @@ class Izvestaji extends PreController
 								DATE_FORMAT( filmovi.start_filma, '%d/%m/%Y' ) AS start_filma,
 								komitenti.naziv_komitenta,
 								bioskopi.naziv_bioskopa,
+					            bioskop_aliases.*,
 								kopije_filma.oznaka_kopije_filma,
 								kopije_filma.serijski_broj_kopije,
 								
@@ -1292,6 +1305,7 @@ class Izvestaji extends PreController
 		$this->db->join( 'rokovnici', 'rokovnici.rokovnik_id = zvanicna_gledanost.rokovnik_id', 'inner' );
 		$this->db->join( 'kopije_filma', 'kopije_filma.kopija_id = rokovnici.kopija_id', 'inner' );
 		$this->db->join( 'bioskopi', 'bioskopi.bioskop_id = rokovnici.bioskop_id', 'inner' );	
+		$this->db->join( 'bioskop_aliases', 'bioskop_aliases.bioskop_alias_id= bioskopi.alias_bioskopa', 'left' );
 		$this->db->join( 'komitenti', 'komitenti.komitent_id = zvanicna_gledanost.komitent_id', 'inner' );
 		$this->db->join( $td_stavke, "$td_stavke.faktura_id = $td.faktura_id", 'inner' );
 		
@@ -1664,6 +1678,15 @@ class Izvestaji extends PreController
 
 	public function prikaziFinansijskiIzvestaj()
 	{
+		
+		if($this->input->post('sbm') == "Export") {
+			$data = $this->finansijskiPrometFilma( true );
+			$data[ 'datum_od' ] = $this->_datum_od;
+			$data[ 'datum_do' ] = $this->_datum_do;
+			$this->load->view( 'finansijskiPrometStampaXls', $data );
+			return;
+		} else {
+		
 		set_time_limit ( 5000 );
 		ini_set ( 'memory_limit', '1024M' );
 	
@@ -1710,7 +1733,7 @@ class Izvestaji extends PreController
 
 		return;
 		
-	}
+	}}
 }
 
 /* End of file izvestaji.php */

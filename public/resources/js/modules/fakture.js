@@ -46,7 +46,7 @@ var Fakture = function( app )
 				data:{ faktureIds: fsids2.substring( -1, fsids2.length - 1 ) },
 				success: function(data)
 				{
-					window.open( s.base.config.baseUri + "fakture/prikaziFakture/storno/?fakture=" + data, "_blank" )
+					window.open( s.base.config.baseUri + "fakture/prikaziFakture/storno/?fakture=" + data, "_blank" );
 				}
 			});	
 		}
@@ -392,10 +392,7 @@ Fakture.prototype.init = function()
 								xmlmap:'prim_porez',
 								width:40,
 								sortable:true,
-								editable:true,
-								edittype:"select",
-								formatter:"select",
-								editoptions:{ value:{ 0:"0", 18:"18"} }
+								editable:true
 						  }, 
 						  {
 							    label: s.base.app.config.lang.sifra_fakture,

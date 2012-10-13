@@ -149,7 +149,8 @@
                 </select>
 	   		
    			<button id="lk-izvestaj-fin-promet-generisi-button" class="update-button controll-button"><?php echo $lang['generisi'];?></button>
-   			<input type='submit'  style="position:relative; left:0" class="list-button controll-button" value="<?php echo $lang['pregled'];?>">
+   			<input name='sbm' type='submit'  style="position:relative; left:0" class="list-button controll-button" value="<?php echo $lang['pregled'];?>">
+   			<input name='sbm' type='submit'  style="position:relative; left:0" class="listxls-button controll-button" value="Export">
    			
    		</form>
 
@@ -168,13 +169,25 @@
    		
    		<div id="tab-bio-izv" style='font-size:14px;'>
    		<form action='izv/izvestajbioskopi.php' method='post' target="_blank">
-   		 <?php echo $lang['sifra_filma'];?>: <input type="text" name="film" id="lk-izvestaj-sifra-filma-input_b" size="12"/>
-   		 <?php echo $lang['naziv_filma'];?>: <input type="text" name="naziv_filma" id="lk-izvestaj-ime-filma-input_b" size="12"/>
-   		 <?php echo $lang['ili'];?>
-   		 <?php echo $lang['originalno_ime_filma'];?>: <input type="text" name="originalni_naziv_filma" id="lk-izvestaj-ime-filma-input_b_org" size="12"/>
-   		 <?php echo $lang['datum'];?>: <input type="text" name="datum" id="izvestaj-bio-datum-od-input" size="12"/>
-   		 <?php echo $lang['datum_do'];?>: <input type="text" name="datum_do" id="izvestaj-bio-datum-do-input" size="12"/>
-         <input type='submit'  style="position:relative; left:0" class="list-button controll-button" value="<?php echo $lang['pregled'];?>">
+   		<table> 
+
+   		<tr><td><?php echo $lang['sifra_filma'];?>: </td><td><input type="text" name="film" id="lk-izvestaj-sifra-filma-input_b" size="12"/></td></tr>
+   		<tr><td> <?php echo $lang['naziv_filma'];?>: </td><td><input type="text" name="naziv_filma" id="lk-izvestaj-ime-filma-input_b" size="12"/></td></tr>
+   		<tr><td> <?php echo $lang['ili'];?></td></tr>
+   		<tr><td> <?php echo $lang['originalno_ime_filma'];?>: </td><td><input type="text" name="originalni_naziv_filma" id="lk-izvestaj-ime-filma-input_b_org" size="12"/></td></tr>
+   		<tr><td> <?php echo $lang['datum'];?>: </td><td><input type="text" name="datum" id="izvestaj-bio-datum-od-input" size="12"/></td></tr>
+   		<tr><td> <?php echo $lang['datum_do'];?>: </td><td><input type="text" name="datum_do" id="izvestaj-bio-datum-do-input" size="12"/></td></tr>
+        <tr><td>----------------</td></tr>       
+        <tr><td><input type="checkbox" name="sr" value="1" >Srbija</td></tr>
+        <tr><td><input type="checkbox" name="cg" value="2">Crna Gora</td></tr>
+        <tr><td><input type="checkbox" name="rs" value="3">Republika Srpska</td></tr>
+        <tr><td><input type="checkbox" name="fd" value="4">Federacija</td></tr>
+
+       
+       
+        <tr><td> <input type='submit'  style="position:relative; left:0" class="list-button controll-button" value="<?php echo $lang['pregled'];?>"></td></tr>
+   			
+   			</table>
    		</form>			
    		</div>
    		

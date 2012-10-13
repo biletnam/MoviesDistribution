@@ -80,6 +80,10 @@ var Zakljucnice = function( app )
 							{
 								s.kopijeZakljucniceGrid.trigger( "reloadGrid" );
 							}
+							else if( data == 1800 )
+							{
+								alert( s.base.app.config.lang.kopija_ima_gledanost_del );	
+							}
 							else
 							{
 								alert( s.base.app.config.lang.dogodila_se_greska );
@@ -103,7 +107,6 @@ Zakljucnice.prototype.init = function()
 	s.kopijaZakljucnicePostData = function( p ){
 		
 		p[ "komitent_id" ] =  s.odabranKomitentId;
-		p[ "primenjen_porez_komitenta" ] = s.odabraniKomitentData.ppk;
 		
 		return p;
 	}

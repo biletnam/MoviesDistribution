@@ -178,6 +178,12 @@ body{
     border: 1px solid #6ac6fe;
 }
 
+.listxls-button {
+    background-color: #A6DBB3;
+    background-image: url("../images/xls.png");
+    border: 1px solid #08561C;
+}
+
 .list-button
 {
 	background-color: #fcfde5;

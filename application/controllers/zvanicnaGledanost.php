@@ -100,6 +100,7 @@ class ZvanicnaGledanost extends PreController
 							filmovi.*,
 							bioskopi.*,
 							kopije_filma.*,
+							rokovnici.primenjen_porez_komitenta AS POREZ_KOMITENTA,
 							rokovnici.status_kopije,
 							rokovnici.tip_raspodele,
 							rokovnici.raspodela_iznos",
@@ -255,8 +256,10 @@ class ZvanicnaGledanost extends PreController
 		 * 
 		 ************************/
 		
+		$st = $this->db->get('settings')->row(0);
+		
 		$zg = new ZvanicnaGledanostVo();
-		$zg->broj_dokumenta_z_gledanosti = $this->brojDokumenta( "zvanicna_gledanost", "z_gledanost_id", '862',$rokovnik->tip);
+		$zg->broj_dokumenta_z_gledanosti = $this->brojDokumenta( "zvanicna_gledanost", "broj_dokumenta_z_gledanosti", '862', $rokovnik->tip, $st->godina_poslovanja );
 		$zg->ukupan_prihod_karte = 0;
 		$zg->ukupan_prihod_karte_eur = 0;
 		$zg->ukupan_prihod = 0;
@@ -312,7 +315,7 @@ class ZvanicnaGledanost extends PreController
 			$zg->zadnji_dan_gledanosti = $this->input->post( 'datum_do' );
 			
 			
-			$this->_calculateZvanicnaGledanost( $zg, $rokovnik );
+			$this->_calculateZvanicnaGledanost( $zg, $rokovnik, $st );
 			
 			// dodati ukupan prihod naocara odvojeno
 			return array( 'dnevna_gledanost' => $dnevna_gledanost, 
@@ -322,7 +325,7 @@ class ZvanicnaGledanost extends PreController
 							  'rokovnik_id' => $zg->rokovnik_id,
 							  'komitent_id' => $zg->komitent_id,
 							  'film_id' => $zg->film_id,
-							  'datum_unosa' => DOC_YEAR . substr( date("Y-m-d"), 4, 6 ),
+							  'datum_unosa' => date("Y-m-d"),
 							  'broj_dokumenta_z_gledanosti' => $zg->broj_dokumenta_z_gledanosti,
 							  'datum_z_gledanost_od' => $zg->datum_z_gledanost_od,
 							  'datum_z_gledanost_do' => $zg->datum_z_gledanost_do,
@@ -354,7 +357,7 @@ class ZvanicnaGledanost extends PreController
 	}
 	
 	
-	protected function _calculateZvanicnaGledanost( ZvanicnaGledanostVo $zg, RokovnikVo $rokovnik )
+	protected function _calculateZvanicnaGledanost( ZvanicnaGledanostVo $zg, RokovnikVo $rokovnik, $st )
 	{
 		$preracunat_porez = 0;
 		$vrednost_preracunatog_poreza = 0;
@@ -363,24 +366,6 @@ class ZvanicnaGledanost extends PreController
 		$za_raspodelu_rsd = 0;
 		$za_distributera_rsd = 0;
 		$pdv = 0;
-		
-		// u sve slucajeve u polje za raspodelu ide ukupan prihod 
-	 	// $za_raspodelu, $za_distributera, $pdv, $ppk
-		
-		
-		// umanjenje polja
-		/***
-		 * 
-		 * 
-		 *  ukupan_prihod_karte
-			ukupan_prihod_karte_eur
-			ukupan_prihod
-			
-			ukupan_prihod_eur
-			ukupan_prihod_naocare
-			ukupan_prihod_naocare_eur
-
-		 ***/
 		
 		
 		
@@ -401,12 +386,10 @@ class ZvanicnaGledanost extends PreController
 		}
 		else 
 		{
-			// 0, 8 18 %
-			//$ppk = $this->_getPorezKomitenta( $print_data[0]['primenjen_porez_komitenta'] );
+			// vrednost preracunatog poreza ostaje 8
 			$ppk = 8;
 			
 			$pf = round( ( $ppk * 100 ) / ( $ppk + 100 ), 4, PHP_ROUND_HALF_UP ); 
-			
 			
 			$vrednost_preracunatog_poreza = $zg->ukupan_prihod_karte * $pf / 100;
 			$neto = $zg->ukupan_prihod_karte - $vrednost_preracunatog_poreza;
@@ -461,8 +444,8 @@ class ZvanicnaGledanost extends PreController
 		$zg->za_raspodelu_eur = $zg->ukupan_prihod_eur;
 		$zg->za_raspodelu_rsd = $neto;
 		
-		$zg->iznos_pdv_rsd = round( ( $zg->za_distributera_rsd * 18 / 100 ), 2, PHP_ROUND_HALF_UP );
-		$zg->pdv_procenat_rsd = 18;
+		$zg->iznos_pdv_rsd = round( ( $zg->za_distributera_rsd * $st->porez_rsd / 100 ), 2, PHP_ROUND_HALF_UP );
+		$zg->pdv_procenat_rsd = $st->porez_rsd; //zato sto je zvanicna gledanost uvek u dinarima
 		
 		$zg->iznos_pdv_eur = 0;
 		$zg->pdv_procenat_eur = 0;
@@ -546,30 +529,6 @@ class ZvanicnaGledanost extends PreController
 		else
 		{
 			echo ErrorCodes::INVALID_INPUT;
-		}
-	}
-	
-	
-	protected function _getPorezKomitenta( $id )
-	{
-		switch( $id )
-		{
-			
-			case 1:
-				return 0;
-			break;
-			
-			case 2:
-				return 8;
-			break;
-			
-			case 3:
-				return 18;
-			break;
-			
-			case 4:
-				return 0;
-			break;
 		}
 	}
 

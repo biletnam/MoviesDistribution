@@ -13,9 +13,34 @@ public function __construct()
 	public function index()
 	{
 		$data = array();
+		
+		$data[ 'maticna_rs' ] = $this->db->get('maticna_firma' )->result_array();
+		$data[ 'maticna_rs' ] = $data[ 'maticna_rs' ][0];
+		
+		$data[ 'maticna_cg' ] = $this->db->get('maticna_firma_cg' )->result_array();
+		$data[ 'maticna_cg' ] = $data[ 'maticna_cg' ][0];
+		
+		$data[ 'settings' ] = $this->db->get('settings' )->result_array();
+		$data[ 'settings' ] = $data[ 'settings' ][0];
+		
+		
 		$data[ 'lang' ] = $this->lang->language;
 		
 		$this->load->view( "settings", $data );
+	}
+	
+	public function sacuvajPodesavanja() {
+		
+		$this->db->update( "settings", $this->_indexedValues );
+		
+		if( $this->db->affected_rows() >= 0 )
+		{
+			echo 0;
+		}
+		else
+		{
+			echo ErrorCodes::DATABASE_ERROR;
+		}
 	}
 	
 	public function sacuvajMaticnuFirmu()
@@ -64,16 +89,6 @@ public function __construct()
 			echo $this->db->_error_number();
 		}
 	
-	}
-	
-	public function readMaticnaFirmacg()
-	{
-		$this->dispatchResultXml( $this->db->get('maticna_firma_cg' )->result_array(), 1 );
-	}
-	
-	public function readMaticnaFirma()
-	{
-		$this->dispatchResultXml( $this->db->get('maticna_firma' )->result_array(), 1 );
 	}
 	
 }

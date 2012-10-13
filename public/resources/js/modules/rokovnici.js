@@ -424,10 +424,12 @@ Rokovnici.prototype.init = function()
 									xmlmap:'primenjen_porez_komitenta',
 									width:60, 
 									sortable:true,
-									editable:true,
+									editable:true
+									/**,
 								    edittype:"select",
 									formatter:"select",
 									editoptions:{ value:{ 1:"0%", 2:"8%", 3:"18%", 4:"Без Пореза"} }
+									**/
 							  },
 							   {
 								    label: s.base.app.config.lang.porez_inostranstvo,

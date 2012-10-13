@@ -403,7 +403,7 @@ Izvestaji.prototype.init = function()
 							sortorder: 'asc',
 							viewrecords: true,
 							gridview: true,
-							caption: s.base.app.config.lang.odigrani_filmovi
+							caption: s.base.app.config.lang.odigrani_filmovi,
 							
 						  }).navGrid('#iz-lk-odigrani-filmovi-grid-pager',{ view:false, search: false, edit:false, del:false, refresh:true, add:false } ); 
 					  // END OF ODIGRANI FILMOVI GRID
@@ -805,13 +805,6 @@ Izvestaji.prototype.init = function()
 									name: s.base.app.config.SCPN +  'neto_zarada', 
 									index:'neto_zarada', 
 									xmlmap:'neto_zarada',
-									width:120
-							  },
-							  {
-								    label: s.base.app.config.lang.sifra_rokovnika,
-									name: s.base.app.config.SCPN +  'rokovnik_id', 
-									index:'rokovnik_id', 
-									xmlmap:'rokovnik_id',
 									width:120
 							  }
 							  

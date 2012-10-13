@@ -3,14 +3,18 @@
     	<td align="center"><img src="resources/images/logo.png" width="156" height="100"/></td>
         <td align="center" style="font-weight:bold; font-size:12px">
 			<?php
-			if ($rd[ 'tip' ]=='cg') {
+			
+			if ($rd[ 'tip' ] == 'cg' ) 
+			{
 				echo $n[ 'naziv_maticne_firme' ]  . "<br />";
 				echo $n[ 'adresa_maticne_firme' ]  . "<br />";
 				echo $n[ 'zip_maticne_firme' ] . " "  . $n[ 'mesto_maticne_firme' ]  . "<br />";
 				echo "PIB: " . $n[ 'pib_maticne_firme' ]  . "<br />"; 
 				echo "Tel: " . $n[ 'tel_maticne_firme' ]  . "<br />";
 				echo "Fax: " . $n[ 'fax_maticne_firme' ]  . "<br />";
+				
 			}else{
+				
 				echo $m[ 'naziv_maticne_firme' ]  . "<br />";
 				echo $m[ 'adresa_maticne_firme' ]  . "<br />";
 				echo $m[ 'zip_maticne_firme' ] . " "  . $m[ 'mesto_maticne_firme' ]  . "<br />";
@@ -18,6 +22,7 @@
 				echo "Tel: " . $m[ 'tel_maticne_firme' ]  . "<br />";
 				echo "Fax: " . $m[ 'fax_maticne_firme' ]  . "<br />";
 			}
+			
 			?>
         </td>
     </tr>
@@ -94,6 +99,7 @@
 		    
 			    <tr>
 			    <?php if ($rd['a']!='da') { ?>
+			    
 			        <td align="center" class="artikal_header"><b>R.br.</b></td>
 			        <td align="center" class="artikal_header"><b>Opis</b></td>
 			        <td align="center" class="artikal_header"><b>Gled.</b></td>
@@ -103,7 +109,8 @@
 			        <td align="center" class="artikal_header"><b>Za raspodelu</b></td>
 			        <td align="center" class="artikal_header_last"><b>Za distributera</b></td>
 			    
-			    <?php }else{?>
+			    <?php }else{ ?>
+			    
 			    	<td align="center" class="artikal_header"><b>R.br.</b></td>
 			        <td align="center" class="artikal_header"><b>Opis</b></td>
 			        <td align="center" class="artikal_header"><b>j.m.</b></td>
@@ -138,6 +145,7 @@
 			        
 			        $len = count( $fakture_stavke );
 			        $c = 1;
+			        
 			        foreach( $fakture_stavke as $v )
 			        {
 			            $tip_raspodele = $v['tip_raspodele'];
@@ -205,19 +213,21 @@
 			                $porez_postoji = true;
 			                
 			                $iznos_pdv += $v[ 'iznos_pdv' ];
+			                
 			                if ($rd['a']=='da') {
 			                	
-			                $porez_str .= "<tr class='porez'><td></td><td>" .$porez_name . "</td><td></td><td></td><td></td><td></td><td>". number_format( $v[ 'za_distributera' ], 2, ',', '.' )."</td><td></td><td>". $porez ."%</td><td>". number_format( $v[ 'iznos_pdv' ], 2, ',', '.' )."</td></tr>";
+			                	$porez_str .= "<tr class='porez'><td></td><td>" .$porez_name . "</td><td></td><td></td><td></td><td></td><td>". number_format( $v[ 'za_distributera' ], 2, ',', '.' )."</td><td></td><td>". $porez ."%</td><td>". number_format( $v[ 'iznos_pdv' ], 2, ',', '.' )."</td></tr>";
+			                	
 			                }else{
+			                	
 			                	$porez_str .= "<tr class='porez'><td></td><td>" .$porez_name . "</td><td></td><td></td><td>". number_format( $v[ 'za_distributera' ], 2, ',', '.' )."</td><td></td><td>". $porez ."%</td><td>". number_format( $v[ 'iznos_pdv' ], 2, ',', '.' )."</td></tr>";
 			                }
-			                }
+			                
+			            }
 	
 			            $c++;
 			            
 			            
-			            
-	
 			            
 			        }
 			         if ($rd['a']=='da') {

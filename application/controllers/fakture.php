@@ -160,6 +160,8 @@ class Fakture extends PreController
 		$query = $this->db->get( 'zvanicna_gledanost' );
 		$sa_porezom_naocare = $this->input->post( 'sa_porezom_naocare' );
 		
+		$st = $this->db->get('settings')->row(0);
+		
 		if( ! $query )
 		{
 		    echo ErrorCodes::DATABASE_ERROR;
@@ -175,7 +177,7 @@ class Fakture extends PreController
 			$ppk = 7;
 			
 			$pf = round( ( $ppk * 100 ) / ( $ppk + 100 ), 4 );
-			$procenat_pdv = 17;
+			$procenat_pdv = $st->porez_cg;
 			
 		}
 		else
@@ -184,12 +186,10 @@ class Fakture extends PreController
 			$ppk = 8;
 			
 			$pf = round( ( $ppk * 100 ) / ( $ppk + 100 ), 4 );
-		    $procenat_pdv = 18;
+		    $procenat_pdv = $st->porez_rsd;
 		}
-		// 0, 8 18 %
-		//$ppk = $this->_prefixedValues['pdv'];
-
 		
+				
 		$vrednost_preracunatog_poreza_karte = 0;
 		$vrednost_preracunatog_poreza_naocare = 0;
 			
@@ -234,7 +234,7 @@ class Fakture extends PreController
 				
 				$procenat_pdv = 0;
 				if ($tip=='cg') {
-					$procenat_pdv = 17;
+					$procenat_pdv = $st->porez_cg;
 					$vrednost_preracunatog_poreza_karte = $ukupan_prihod_filma * $pf / 100;
 					$vrednost_preracunatog_poreza_naocare = $ukupan_prihod_naocara *  $pf / 100;
 				}
@@ -369,7 +369,7 @@ class Fakture extends PreController
 				
 				if( $tip == 'cg' ) 
 				{
-					$procenat_pdv = 17;
+					$procenat_pdv = $st->porez_cg;
 					$pdv_film = round( ( $za_distributera_film * $procenat_pdv / 100 ), 2 );
 				}
 			}		
@@ -426,11 +426,10 @@ class Fakture extends PreController
 		
 		$this->db->trans_start();
 		
-		$this->db->where( "YEAR(datum_unosa_fakture) = ", DOC_YEAR );
+		$this->db->where( "YEAR(datum_unosa_fakture) = ", $st->godina_poslovanja );
 	
 		$broj_dokumenta_result = $this->db->select_max( "redni_broj_u_godini", "MAX_ID" )->get( "fakture" )->result_array();
 		
-		//echo $this->db->last_query();
 		
 		$broj_faktura = $broj_dokumenta_result[0][ "MAX_ID" ];
 		
@@ -475,7 +474,7 @@ class Fakture extends PreController
 						'broj_dokumenta_fakture' => $prefiks.'ifb-' . $broj_faktura,
 						'ver' => 0.9,
 						'idb' => $broj_faktura,
-						'datum_unosa_fakture' => DOC_YEAR . substr( date("Y-m-d"), 4, 6 ),
+						'datum_unosa_fakture' => date("Y-m-d"),
 						'vdate' => $this->_prefixedValues[ 'zadnji_dan_gledanosti' ],
 						'from' => '',
 						'to' => $this->_prefixedValues[ 'naziv_komitenta' ],
@@ -615,6 +614,8 @@ class Fakture extends PreController
 		$query = $this->db->get( 'fakture' );
 		$sa_porezom_naocare = 1;
 		
+		$st = $this->db->get('settings')->row(0);
+		
 		if( ! $query )
 		{
 		    echo ErrorCodes::DATABASE_ERROR;
@@ -679,11 +680,11 @@ class Fakture extends PreController
 		
 		if( $tip == 'cg' ) 
 		{
-			$procenat_pdv = 17;
+			$procenat_pdv = $st->porez_cg;
 		}
 		else
 		{
-			$procenat_pdv = 18;
+			$procenat_pdv = $st->porez_rsd;
 		}
 		
 		if( $fd[ 'valuta_fakture' ] == 1 )

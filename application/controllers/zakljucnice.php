@@ -7,8 +7,7 @@ class Zakljucnice extends PreController
 	public function __construct()
 	{
 		parent::__construct();
-		
-		$this->load->model('Zakljucnice_model', 'zm');
+		$this->load->database();
 	}
 
 	public function index()
@@ -106,9 +105,16 @@ class Zakljucnice extends PreController
 	
 	public function createZakljucnica()
 	{
-	   
-	   $this->_prefixedValues[ "broj_dokumenta_zakljucnice" ] = $this->brojDokumenta( 'zakljucnice', 'zakljucnica_id', '860', $this->_prefixedValues[ "tip" ] );
-	   $this->_prefixedValues[ "datum_unosa" ] = DOC_YEAR . substr( date("Y-m-d"), 4, 6 );
+
+	   $st = $this->db->get('settings')->row(0);
+	    		
+	   $this->_prefixedValues[ "broj_dokumenta_zakljucnice" ] = $this->brojDokumenta( 'zakljucnice', 
+	   																				  'broj_dokumenta_zakljucnice', 
+	   																				  '860', 
+	   																				  $this->_prefixedValues[ "tip" ], 
+	   																				  $st->godina_poslovanja );
+	   																				  
+	   $this->_prefixedValues[ "datum_unosa" ] = $st->godina_poslovanja . substr( date("Y-m-d"), 4, 6 );
 	   
 	   $this->db->insert( 'zakljucnice', $this->_prefixedValues );
 	   
@@ -123,7 +129,7 @@ class Zakljucnice extends PreController
 			  
 	}
 	
-	/***
+	/**
 	public function updateZakljucnica( $zakljucnica_id )
 	{
 		
@@ -172,13 +178,31 @@ class Zakljucnice extends PreController
 		   
 		   $kopijeZakId = $this->db->insert_id();
 		   
-		   if( $this->db->affected_rows() == 1 )
+		   $st = $this->db->get('settings')->row(0);
+		   
+		   
+		   
+		   if( $st && $this->db->affected_rows() == 1 )
 		   {
-		   	
-			   $brojDokumenta = $this->brojDokumenta( "rokovnici", 'rokovnik_id', '861', $tip ); 
+		   	   $porez = 0;
+		   	   
+			   if( $tip == 'sr' )
+			   {
+			   		$porez = $st->porez_rsd;
+			   }
+			   else if( $tip == 'cg' )
+			   {
+			   		$porez = $st->porez_cg;	
+			   }
+			   else if( $tip == 'km' )
+			   {
+				     $porez = $st->porez_km;	
+			   }
+			   
+			   $brojDokumenta = $this->brojDokumenta( "rokovnici", 'broj_dokumenta_rokovnika', '861', $tip, $st->godina_poslovanja ); 
 
 	   		   $this->db->insert( 'rokovnici', array( 
-	   		   											"datum_unosa" => DOC_YEAR . substr( date("Y-m-d"), 4, 6 ),
+	   		   											"datum_unosa" => date("Y-m-d"),
 		   												"zakljucnica_id" => $zakljucnica_id,
 	   		   											"kopije_zakljucnice_id" => $kopijeZakId,
 		   												"broj_dokumenta_rokovnika " => $brojDokumenta,  
@@ -190,7 +214,7 @@ class Zakljucnice extends PreController
 		   												"datum_kopije_do" => $this->_prefixedValues[ "datum_kopije_do" ],
 	   		   											"datum_prijema_kopije" => $this->_prefixedValues[ "datum_kopije_od" ],
 														"datum_otpreme_kopije" => $this->getDateWithoutWeekend( $this->_prefixedValues[ "datum_kopije_do"], 24 * 60 * 60 ),
-	   		   											"primenjen_porez_komitenta" => $this->input->post( "primenjen_porez_komitenta" ),
+	   		   											"primenjen_porez_komitenta" => $porez,
 		   												"tip_raspodele" => $this->_prefixedValues[ "tip_raspodele" ],
 		   												"raspodela_iznos" => $this->_prefixedValues[ "raspodela_iznos" ],
 	   		   		                                    "tip" => $tip,	   		
@@ -228,25 +252,37 @@ class Zakljucnice extends PreController
 	{
 		if( $kopija_zak_id )
 		{
-		
-			$this->db->trans_start();
+
+			$rokovnik = $this->db->where( 'kopije_zakljucnice_id', $kopija_zak_id )->get( 'rokovnici' )->row( 0 );
+			$gledanost = $this->db->where( 'rokovnik_id', $rokovnik->rokovnik_id )->get( 'gledanost' )->result_array();
 			
-			$this->db->where( "kopije_zakljucnice_id", $kopija_zak_id );
-			$this->db->delete( "kopije_zakljucnice" );
 			
-			$this->db->where( "kopije_zakljucnice_id", $kopija_zak_id );
-			$this->db->delete( "rokovnici" );
-			
-			$this->db->trans_complete();
-			
-			if( $this->db->trans_status() === FALSE )
+			if( is_array( $gledanost ) && count( $gledanost ) > 0 )
 			{
-			    echo ErrorCodes::DATABASE_ERROR;
+				echo ErrorCodes::ACCESS_DENIED;
 			}
-			else
+			else 
 			{
-				echo 0;
-			} 
+				$this->db->trans_start();
+			
+				$this->db->where( "kopije_zakljucnice_id", $kopija_zak_id );
+				$this->db->delete( "kopije_zakljucnice" );
+				
+				$this->db->where( "kopije_zakljucnice_id", $kopija_zak_id );
+				$this->db->delete( "rokovnici" );
+				
+				$this->db->trans_complete();
+				
+				if( $this->db->trans_status() === FALSE )
+				{
+				    echo ErrorCodes::DATABASE_ERROR;
+				}
+				else
+				{
+					echo 0;
+				} 	
+			}
+			
    		
 		}
 		else

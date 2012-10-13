@@ -20,7 +20,11 @@ var Settings = function( app )
 				{	
 					if( data == 0 )
 					{
-						alert( "Успешно сте сачували податке у базу." );
+						alert( s.base.app.config.lang.dataSaved );
+					}
+					else
+					{
+						alert( s.base.app.config.lang.dogodila_se_greska );
 					}
 				}
 			});
@@ -38,12 +42,36 @@ var Settings = function( app )
 				{	
 					if( data == 0 )
 					{
-						alert( "Успешно сте сачували податке у базу." );
+						alert( s.base.app.config.lang.dataSaved );
+					}
+					else
+					{
+						alert( s.base.app.config.lang.dogodila_se_greska );
 					}
 				}
 			});
 			
 		return false;	
+	},
+
+	this.sacuvajPodesavanja = function() {
+
+		$.ajax({
+			type: 'post',
+			url: s.base.config.baseUri + "settings/sacuvajPodesavanja",
+			data: $( this ).serialize(),
+			success: function( data ) {
+				if( data == 0 ) {
+					alert( s.base.app.config.lang.dataSaved );
+				}
+				else
+				{
+					alert( s.base.app.config.lang.dogodila_se_greska );
+				}
+			}
+		});
+
+		return false;
 	}
 	
 	
@@ -77,7 +105,7 @@ var Settings = function( app )
 					}
 					else
 					{
-						alert( "Догодила се грешка. Покушајте поново." );
+						alert( s.base.app.config.lang.dogodila_se_greska );
 					}
 					
 				}
@@ -321,49 +349,10 @@ Settings.prototype.init = function()
 					  
 			$( "#settings-save-form" ).submit( s.sacuvajMaticnuFirmu )
 			
-			$.ajax({
-				type: 'get',
- 				url: s.base.config.baseUri + "settings/readMaticnaFirma/",
-				success: function(data)
-				{	
-					var r = $( data.childNodes[0].lastChild );
-					
-					$( "#naziv_maticne_firme_input" ).val( $( r ).find( "naziv_maticne_firme" ).text() );
-					$( "#adresa_maticne_firme_input" ).val( $( r ).find( "adresa_maticne_firme" ).text() );
-					$( "#pib_maticne_firme_input" ).val( $( r ).find( "pib_maticne_firme" ).text() );
-					$( "#sifra_maticne_firme_input" ).val( $( r ).find( "sifra_maticne_firme" ).text() );
-					$( "#mesto_maticne_firme_input" ).val( $( r ).find( "mesto_maticne_firme" ).text() );
-					$( "#zip_maticne_firme_input" ).val( $( r ).find( "zip_maticne_firme" ).text() );
-					$( "#tel_maticne_firme_input" ).val( $( r ).find( "tel_maticne_firme" ).text() );
-					$( "#fax_maticne_firme_input" ).val( $( r ).find( "fax_maticne_firme" ).text() );
-					
-				}
-			});
-			
+			$( "#generalna-podesavanja-form" ).submit( s.sacuvajPodesavanja )
 			
 			
 			$( "#settings-save-formcg" ).submit( s.sacuvajMaticnuFirmucg )
-			
-			$.ajax({
-				type: 'get',
- 				url: s.base.config.baseUri + "settings/readMaticnaFirmacg/",
-				success: function(data)
-				{	
-					var r = $( data.childNodes[0].lastChild );
-					
-					$( "#naziv_maticne_firme_inputcg" ).val( $( r ).find( "naziv_maticne_firme" ).text() );
-					$( "#adresa_maticne_firme_inputcg" ).val( $( r ).find( "adresa_maticne_firme" ).text() );
-					$( "#pib_maticne_firme_inputcg" ).val( $( r ).find( "pib_maticne_firme" ).text() );
-					$( "#sifra_maticne_firme_inputcg" ).val( $( r ).find( "sifra_maticne_firme" ).text() );
-					$( "#mesto_maticne_firme_inputcg" ).val( $( r ).find( "mesto_maticne_firme" ).text() );
-					$( "#zip_maticne_firme_inputcg" ).val( $( r ).find( "zip_maticne_firme" ).text() );
-					$( "#tel_maticne_firme_inputcg" ).val( $( r ).find( "tel_maticne_firme" ).text() );
-					$( "#fax_maticne_firme_inputcg" ).val( $( r ).find( "fax_maticne_firme" ).text() );
-					
-				}
-			});
-			
-			
 			
  		}
 	});
